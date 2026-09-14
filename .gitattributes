@@ -1,0 +1,2 @@
+# Media files must never be line-merged or normalized.
+*.mp4 binary
