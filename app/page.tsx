@@ -1,14 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import {
-  AnimatePresence,
-  motion,
-  useReducedMotion,
-  useScroll,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+import { AnimatePresence, motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { ArrowDown, ArrowUpRight, Menu, X } from "lucide-react";
 import { useRef, useState } from "react";
 
@@ -21,11 +14,11 @@ const navigation = [
 ];
 
 const services = [
-  { number: "01", name: "Strzyżenie", price: "od 180 zł", image: "https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=900&q=85" },
-  { number: "02", name: "Koloryzacja", price: "od 320 zł", image: "https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=900&q=85" },
-  { number: "03", name: "Balayage", price: "od 450 zł", image: "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&fit=crop&w=900&q=85" },
-  { number: "04", name: "Pielęgnacja", price: "od 160 zł", image: "https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&w=900&q=85" },
-  { number: "05", name: "Modelowanie", price: "od 120 zł", image: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=900&q=85" },
+  { number: "01", name: "Strzyżenie", description: "Forma dopasowana do rysów, struktury włosów i codzienności.", price: "od 180 zł", image: "https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=900&q=85" },
+  { number: "02", name: "Koloryzacja", description: "Wielowymiarowy kolor z uwagą na kondycję i naturalny odrost.", price: "od 320 zł", image: "https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=900&q=85" },
+  { number: "03", name: "Balayage", description: "Miękkie rozświetlenie projektowane indywidualnie dla Twojej urody.", price: "od 450 zł", image: "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&fit=crop&w=900&q=85" },
+  { number: "04", name: "Pielęgnacja", description: "Rytuały odbudowujące dobrane do aktualnych potrzeb włosów.", price: "od 160 zł", image: "https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&w=900&q=85" },
+  { number: "05", name: "Modelowanie", description: "Lekkie, trwałe wykończenie na co dzień lub wyjątkową okazję.", price: "od 120 zł", image: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=900&q=85" },
 ];
 
 const gallery = [
@@ -98,18 +91,9 @@ function Header() {
 }
 
 function Hero() {
-  const ref = useRef<HTMLElement>(null);
-  const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const videoScale = useTransform(scrollYProgress, [0, .72, 1], [1, .82, .66]);
-  const videoRadius = useTransform(scrollYProgress, [0, .7], ["0px", "2px"]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, .55], [.38, .12]);
-  const titleY = useTransform(scrollYProgress, [0, .5], [0, -90]);
-
   return (
-    <section id="poczatek" ref={ref} className="hero-track">
-      <div className="hero-sticky">
-        <motion.div className="hero-media" style={reduceMotion ? undefined : { scale: videoScale, borderRadius: videoRadius }}>
+    <section id="poczatek" className="hero">
+        <div className="hero-media">
           <video
             autoPlay
             muted
@@ -121,23 +105,26 @@ function Hero() {
           >
             <source src="/hero.mp4" type="video/mp4" />
           </video>
-          <motion.div className="hero-shade" style={{ opacity: overlayOpacity }} />
-        </motion.div>
+          <div className="hero-shade" />
+        </div>
 
-        <motion.div className="hero-type" style={reduceMotion ? undefined : { y: titleY }}>
+        <div className="hero-type">
+          <motion.p className="hero-eyebrow" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .2 }}>Salon fryzjerski <span>•</span> Warszawa</motion.p>
           <h1>
-            <SplitLine>WŁOSY</SplitLine>
-            <SplitLine delay={.12}><em>mają głos.</em></SplitLine>
+            <SplitLine>Włosy, które</SplitLine>
+            <SplitLine delay={.1}><em>pasują do Ciebie.</em></SplitLine>
           </h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1, duration: .8 }}>
-            ÉLITE / WARSAW<br />HAIR &amp; CARE STUDIO
-          </motion.p>
-        </motion.div>
-        <div className="hero-index">01 — 06</div>
-        <a className="hero-scroll" href="#studio"><span>Przewiń</span><ArrowDown size={16} /></a>
-      </div>
+          <motion.p className="hero-description" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .65 }}>Strzyżenie, koloryzacja i pielęgnacja prowadzone z uwagą na detal, kondycję włosów i Twój styl.</motion.p>
+          <motion.div className="hero-actions" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .8 }}><a className="button button-primary" href="#kontakt">Umów wizytę <ArrowUpRight size={16} /></a><a className="button button-secondary" href="#uslugi">Zobacz usługi <ArrowDown size={15} /></a></motion.div>
+          <motion.p className="hero-trust" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}>Klientki wracają do nas od lat</motion.p>
+        </div>
     </section>
   );
+}
+
+function TrustStrip() {
+  const items = [["Indywidualne podejście", "Każda usługa zaczyna się od konsultacji."], ["Świadoma koloryzacja", "Kolor dopasowany do włosów i stylu."], ["Zdrowe włosy", "Dbamy o wygląd i kondycję włosów."], ["Spokojna atmosfera", "Precyzja bez pośpiechu i presji."]];
+  return <section className="trust-strip" aria-label="Dlaczego warto nam zaufać">{items.map(([title, text]) => <div key={title}><strong>{title}</strong><p>{text}</p></div>)}</section>;
 }
 
 function StudioStory() {
@@ -147,18 +134,18 @@ function StudioStory() {
 
   return (
     <section id="studio" ref={ref} className="story-section">
-      <div className="story-kicker"><span>02</span><p>Nie poprawiamy natury.<br />Uczymy się jej języka.</p></div>
+      <div className="story-kicker"><span>03</span><p>Dlaczego ÉLITE</p></div>
       <Reveal className="story-statement">
-        <h2>Forma zaczyna się<br />od <em>uważności.</em></h2>
+        <h2>Najpierw słuchamy.<br /><em>Potem tworzymy.</em></h2>
       </Reveal>
       <div className="story-composition">
         <motion.figure className="story-image" style={{ y: imageY }}>
           <Image src="https://images.unsplash.com/photo-1522336572468-97b06e8ef143?auto=format&fit=crop&w=1600&q=90" alt="Artystyczna praca stylisty w ÉLITE" fill sizes="(max-width: 768px) 100vw, 58vw" />
         </motion.figure>
         <Reveal className="story-copy">
-          <p className="story-label">ÉLITE, czyli słuchanie</p>
-          <p>Nie pracujemy według gotowego obrazu. Najpierw obserwujemy ruch, strukturę i codzienny rytuał. Potem szukamy formy, która nie kończy się przy wyjściu ze studia.</p>
-          <p>To fryzjerstwo spokojne, precyzyjne i osobiste.</p>
+          <p className="story-label">Piękny efekt także po wizycie</p>
+          <p>Zaczynamy od konsultacji. Poznajemy Twoje włosy, styl i codzienny rytm, aby fryzura lub kolor były naprawdę dopasowane.</p>
+          <p>Dbamy o kondycję włosów i tworzymy efekt, który łatwo utrzymać również po wyjściu z salonu.</p>
         </Reveal>
       </div>
     </section>
@@ -170,7 +157,7 @@ function Services() {
 
   return (
     <section id="uslugi" className="services-section">
-      <div className="section-heading"><span>03 / Menu</span><p>Usługi i ceny</p></div>
+      <div className="section-intro"><span>02 / Usługi</span><div><h2>Usługi</h2><p>Wybierz usługę odpowiednią dla swoich włosów.</p></div></div>
       <div className="service-list">
         {services.map((service, index) => (
           <motion.a
@@ -185,7 +172,7 @@ function Services() {
             transition={{ duration: .7, delay: index * .04, ease }}
           >
             <span className="service-number">{service.number}</span>
-            <h3>{service.name}</h3>
+            <div className="service-name"><h3>{service.name}</h3><p>{service.description}</p></div>
             <span className="service-price">{service.price}</span>
             <ArrowUpRight className="service-arrow" />
           </motion.a>
@@ -195,6 +182,7 @@ function Services() {
         {active !== null && <motion.div className="service-preview" initial={{ opacity: 0, scale: .94, rotate: -3 }} animate={{ opacity: 1, scale: 1, rotate: -2 }} exit={{ opacity: 0, scale: .96 }} transition={{ duration: .35 }}><Image src={services[active].image} alt="" fill sizes="300px" /></motion.div>}
       </AnimatePresence>
       <p className="service-note">Dokładną wycenę koloryzacji potwierdzamy po konsultacji. Każda usługa obejmuje dobór pielęgnacji i spokojne wykończenie.</p>
+      <a className="button button-primary services-cta" href="#kontakt">Umów wizytę <ArrowUpRight size={16} /></a>
     </section>
   );
 }
@@ -202,7 +190,7 @@ function Services() {
 function Gallery() {
   return (
     <section id="galeria" className="gallery-section">
-      <div className="gallery-title"><span>04 / Obserwacje</span><h2>Ruch.<br /><em>Światło.</em><br />Charakter.</h2></div>
+      <div className="gallery-title"><span>04 / Realizacje</span><h2>Efekty mówią <em>same.</em></h2></div>
       <div className="gallery-layout">
         {gallery.map((item, index) => (
           <motion.figure className={`gallery-item ${item.className}`} key={item.src} initial={{ clipPath: "inset(0 0 100% 0)" }} whileInView={{ clipPath: "inset(0 0 0% 0)" }} viewport={{ once: true, margin: "-10%" }} transition={{ duration: 1.15, delay: index % 2 * .1, ease }}>
@@ -218,12 +206,12 @@ function Gallery() {
 function Voices() {
   return (
     <section id="glosy" className="voices-section">
-      <div className="section-heading light"><span>05 / Głosy</span><p>Powiedziane po wizycie</p></div>
+      <div className="section-intro"><span>05 / Opinie</span><div><h2>Dlaczego klientki wracają.</h2><p>Najlepiej opowiadają o nas osoby, które oddają nam swoje włosy.</p></div></div>
       <div className="voices-list">
         {opinions.map(([quote, author], index) => (
           <Reveal className="voice" key={author}>
             <span>0{index + 1}</span>
-            <blockquote>„{quote}”</blockquote>
+            <div className="stars" aria-label="5 na 5">★★★★★</div><blockquote>„{quote}”</blockquote>
             <p>{author}</p>
           </Reveal>
         ))}
@@ -232,11 +220,15 @@ function Voices() {
   );
 }
 
+function FinalCta() {
+  return <section className="final-cta"><Reveal><span>Nowy termin. Nowa energia.</span><h2>Gotowa na zmianę?</h2><p>Zarezerwuj wizytę lub skontaktuj się z nami — pomożemy dobrać odpowiednią usługę.</p><div><a className="button button-acid" href="#kontakt">Umów wizytę <ArrowUpRight size={16} /></a><a className="button button-dark-outline" href="tel:+48500600700">Zadzwoń</a></div></Reveal></section>;
+}
+
 function Contact() {
   return (
     <section id="kontakt" className="contact-section">
-      <div className="contact-topline"><span>06 / Spotkajmy się</span><span>Warszawa — 52.2297° N</span></div>
-      <Reveal><h2>Twój ruch.</h2></Reveal>
+      <div className="contact-topline"><span>06 / Kontakt</span><span>Warszawa — 52.2297° N</span></div>
+      <Reveal><h2>Twój ruch.</h2><p className="contact-lead">Zadzwoń, napisz lub odwiedź nas przy Mokotowskiej.</p></Reveal>
       <div className="contact-grid">
         <div className="contact-action">
           <p>Wybierz usługę online lub zadzwoń. Jeśli nie wiesz, czego potrzebujesz, zacznij od konsultacji.</p>
@@ -259,12 +251,15 @@ export default function Home() {
       <motion.div className="progress" style={{ scaleX: progress }} />
       <Header />
       <Hero />
-      <StudioStory />
+      <TrustStrip />
       <Services />
+      <StudioStory />
       <Gallery />
       <Voices />
+      <FinalCta />
       <Contact />
       <footer><span>© 2026 ÉLITE BEAUTY STUDIO</span><span>INSTAGRAM ↗ &nbsp;&nbsp; POLITYKA PRYWATNOŚCI</span><a href="#poczatek">Do góry ↑</a></footer>
+      <a className="mobile-book" href="#kontakt">Umów wizytę <ArrowUpRight size={15} /></a>
     </main>
   );
 }
