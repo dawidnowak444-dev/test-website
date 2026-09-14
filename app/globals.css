@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root { --paper: #f1efe9; --ink: #141412; --acid: #d9ff43; --line: rgba(20, 20, 18, .2); }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 80px; }

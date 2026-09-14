@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+
 import {
   AnimatePresence,
   motion,
@@ -267,4 +268,5 @@ export default function Home() {
       <footer><span>© 2026 ÉLITE BEAUTY STUDIO</span><span>INSTAGRAM ↗ &nbsp;&nbsp; POLITYKA PRYWATNOŚCI</span><a href="#poczatek">Do góry ↑</a></footer>
     </main>
   );
-}
+
+
