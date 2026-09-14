@@ -268,5 +268,6 @@ export default function Home() {
       <footer><span>© 2026 ÉLITE BEAUTY STUDIO</span><span>INSTAGRAM ↗ &nbsp;&nbsp; POLITYKA PRYWATNOŚCI</span><a href="#poczatek">Do góry ↑</a></footer>
     </main>
   );
+}
 
 
